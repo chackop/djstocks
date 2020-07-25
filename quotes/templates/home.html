@@ -2,5 +2,23 @@
 
 {% block content %}
     <h1>Home Title</h1>
-    {{api}}
+    {% if ticker %}
+        {{ticker}}
+    {% endif %}
+
+    {% if api %}
+        {% if api == "Error..." %}
+            There was a problem with your Ticker Symbol
+        {% else %}
+            <h2>{{api.companyName}}</h2>
+            <h4>Price: {{api.latestPrice}}</h4>
+            <h4>Previous Closed: {{api.previousClose}}</h4>
+            <h4>Market Cap: {{api.marketCap}}</h4>
+            <h4>YTD Change: {{api.ytdChange}}</h4>
+            <h4>52w High: {{api.week52High}}</h4>
+            <h4>52w Low: {{api.week52Low}}</h4>
+        {% endif %}
+    {% else %}
+    {% endif %}
+    {{api.companyName}}
 {% endblock %}
