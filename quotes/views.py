@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Stock
+from .forms import StockForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -28,4 +31,15 @@ def about(request):
 
 
 def add_stock(request):
-    return render(request, 'add_stock.html', {})
+
+    if request.method == 'POST':
+        form = StockForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, ("Stock has been added"))
+            return redirect('add_stock')
+
+    else:
+        ticker = Stock.objects.all()
+        return render(request, 'add_stock.html', {'ticker':  ticker})
